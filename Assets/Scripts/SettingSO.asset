@@ -12,16 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a84dad2060929a94a9806b7d3caeb5c3, type: 3}
   m_Name: SettingSO
   m_EditorClassIdentifier: 
-  loadedDuckPins: []
-  loadedBowlingBalls: []
+  loadedDuckPins:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  loadedBowlingBalls:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   HighScore: 0
-  balls: 0
+  balls: 6
   CurrentScore: 0
-  currentShots: 0
+  currentShots: 1
   TotalShots: 0
   CurrentRound: 0
-  ScoreBoardList: 
-  playerName: Player 1
+  TimeBtwScoreUpdate: 2
+  GameStart: 1
+  ScoreBoardList: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  playerName: Player 0
   bowlingBalls:
   - {fileID: 2480737715437220724, guid: fc26faa9e41ec74469ffb98be1c20db8, type: 3}
   - {fileID: 2173708097188628101, guid: 7f00d251dd1de204e8d2cb4d9bd4042a, type: 3}

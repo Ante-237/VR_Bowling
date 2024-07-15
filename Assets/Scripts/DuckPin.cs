@@ -5,25 +5,30 @@ using UnityEngine;
 public class DuckPin : MonoBehaviour
 {
     public Vector3 WorldUp = Vector3.up;
-    public STANDING standstate;
+    public STANDING standstate = STANDING.YES;
+    public float ZRotation = 0;
+    public float XRotation = 0;
 
-    public void Start()
-    {
-        standstate = STANDING.YES;
-    }
+    private bool runOnce = false;
 
     private void Update()
     {
-        if(Time.frameCount % 400 == 0)
+        if (Time.frameCount % 200 == 0)
         {
-            Debug.Log("Falling reverse : " + Vector3.Angle(transform.up, WorldUp) * Mathf.Rad2Deg);
-            Debug.Log("Angle Btw : " + Vector3.Angle(transform.up, WorldUp));
-            Debug.Log("Up Local Vector : " + transform.up);
-          
-            if (Vector3.Dot(transform.up, WorldUp) > 0.1)
+            if(!runOnce)
             {
-                standstate = STANDING.NO;
+                Quaternion quaternion = transform.rotation;
+                ZRotation = quaternion.eulerAngles.z;
+                XRotation = quaternion.eulerAngles.x;
+                if ((ZRotation > 30 && ZRotation < 340) || (XRotation > 30 && XRotation < 340))
+                {
+                    standstate = STANDING.NO;
+                    runOnce = true;
+                }
             }
+            
         }
     }
+
+    
 }

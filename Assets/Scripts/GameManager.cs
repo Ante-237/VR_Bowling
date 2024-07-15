@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Transform> BallRollingPositions;
     [SerializeField] private Transform AnchorParentBalls;
 
+    private bool roundUp = false;
+    private int ballsFallen = 0;
+    private int callingAmount = 0;
+
     private void OnEnable()
     {
         ExitBtn.onClick.AddListener(ExitGame);
@@ -54,104 +58,125 @@ public class GameManager : MonoBehaviour
 
 
         // set the first score to 0 to avoid null reference error when adding other score.
-        settings.ScoreBoardList.Add(0);
-    
+        fillUpList();
+
     }
 
-    private bool roundUp = true;
-    private int ballsStanding = 0;
+    private void fillUpList()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            settings.ScoreBoardList.Add(0);
+        }
+    }
+
+ 
 
     public void CheckGameStatus()
     {
-        if (!roundUp)
+        if (settings.GameStart)
         {
-            settings.CurrentRound += 1;
-            settings.currentShots = 0;
-            
-        }
+            Debug.Log("Call Number : " + callingAmount);
 
-  
-
-        if(settings.CurrentRound >= 0 && settings.CurrentRound < 10)
-        {
-            if(settings.currentShots < 2)
+            if (roundUp)
             {
+                settings.CurrentRound += 1;
+                settings.currentShots = 0;
+                roundUp = false;
+            }
 
-                // ensure round remains the same
-                roundUp = true;
-
-                // runtimely coroutine base on teh content in here considering all a ball was touch
-                foreach(var ball in settings.loadedDuckPins)
+            if (settings.CurrentRound >= 0 && settings.CurrentRound < 10)
+            {
+                if (settings.currentShots < 2)
                 {
-                    if(ball.TryGetComponent<DuckPin>(out DuckPin duckPin))
+
+                    // ensure round remains the same
+                    roundUp = false;
+
+                    // runtimely coroutine base on teh content in here considering all a ball was touch
+                    foreach (GameObject ball in settings.loadedDuckPins)
                     {
-                        ballsStanding += duckPin.standstate == STANDING.NO ? 1 : 0;
+                        if (ball.TryGetComponent(out DuckPin duckPin))
+                        {
+                            Debug.Log("Standing State : " + (duckPin.standstate == STANDING.NO ? "fallen" : "standing"));
+                            // ballsFallen += duckPin.standstate == STANDING.NO ? 1 : 0;
+                            if(duckPin.standstate == STANDING.NO)
+                            {
+                                ballsFallen++;
+                            }
+                        }
                     }
-                }
 
 
-                // what if this is the first show and  not all balls are take out, what if all balls are take out for a strike.
-                // double to next shot, or push to next round.
-                if(settings.currentShots == 0)
-                {
-                    if(ballsStanding < 10)
+                    // what if this is the first show and  not all balls are take out, what if all balls are take out for a strike.
+                    // double to next shot, or push to next round.
+                    if (settings.currentShots == 0)
                     {
-                        settings.currentShots++;
-                        settings.CurrentScore += ballsStanding;
-                        Debug.Log("Balls Standing Round 0 : " + ballsStanding);
+                        if (ballsFallen < 10)
+                        {
+                         
+                            settings.CurrentScore += ballsFallen;
+                            Debug.Log("Balls Standing Round 0 : Shot 0 => : " + ballsFallen);
+                        }
+                        else
+                        {
+                            // a strike complete // call the other stuff and update the UI
+                            StartCoroutine(ShowScoreStrick());
+                            Debug.Log("Balls Standing Round 0 : Shot 0 => :" + ballsFallen);
+                            settings.CurrentScore += 20;
+                            settings.currentShots = 2;
+                            roundUp = true;
+                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwScoreUpdate));
+                        }
                     }
+                    
+                    if (settings.currentShots == 1)
+                    {
+                        if (ballsFallen < 10)
+                        {
+                            settings.CurrentScore += ballsFallen;
+                            Debug.Log("Balls Standing Round 0 : Shot 0 => :" + ballsFallen);
+                            roundUp = true;
+                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwGameChecks));
+                            settings.currentShots = 0;
+                        }
+                        else
+                        {
+                            settings.currentShots = 0;
+                            roundUp = true;
+                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwGameChecks));
+                        }
+                    }
+                    // add the final score to the current score
+                    settings.ScoreBoardList[settings.CurrentRound] += settings.CurrentScore;
+                    StartCoroutine(UpdateScoreBoard(settings.CurrentRound, settings.ScoreBoardList[settings.CurrentRound]));
+                    settings.CurrentScore = 0;
+                    ballsFallen = 0;
+                    settings.currentShots += 1;
+
+
                 }
                 else
                 {
-                    // a strike complete // call the other stuff and update the UI
-                    StartCoroutine(ShowScoreStrick());
-                    Debug.Log("Balls Standing Round 0 : " + ballsStanding);
-                    settings.CurrentScore += 20;
-                    settings.currentShots = 2;
+                    roundUp = true;
+                    settings.currentShots = 0;
                    
-                    roundUp = false;
+                    Debug.Log("The Current Shots Value Exited the Range");
+                    // reset the duck pins here
                 }
-
-                if(settings.currentShots == 1)
-                {
-                    if(ballsStanding < 10)
-                    {
-                        settings.CurrentScore += ballsStanding;
-                        Debug.Log("Balls Standing Round 0 : " + ballsStanding);
-                    }
-                    else
-                    {
-                        settings.currentShots = 0;
-                        roundUp = false;
-                    }
-                }
-
-                // add the final score to the current score
-                settings.ScoreBoardList.Add(settings.ScoreBoardList[settings.CurrentRound] + settings.CurrentScore);
-                UpdateScoreBoard(settings.CurrentRound, settings.ScoreBoardList[settings.CurrentRound + 1]);
-                settings.CurrentScore = 0;
-
-
             }
             else
             {
-                roundUp = false;
-                settings.currentShots = 0;
-                duckPinSetup.RunArrangements();
-                // reset the duck pins here
-            }
-        }
-        else
-        {
-            // run coroutine to show final game score
-            StartCoroutine(ShowHighScore());
+                // run coroutine to show final game score
+                StartCoroutine(ShowHighScore());
+            } 
         }
     }
 
     // update score board
     IEnumerator UpdateScoreBoard(int index, int Score)
     {
-        CurrentScoreList[index].text = "----\n" + "| " + settings.ScoreBoardList[index] + " |";
+        CurrentScoreList[index].text = "----\n" + "| " + settings.ScoreBoardList[index].ToString("00") + " |";
         yield return new WaitForSeconds(settings.TimeBtwScoreUpdate);
     }
 
@@ -216,6 +241,7 @@ public class GameManager : MonoBehaviour
         StarterPanel.SetActive(false);
         SpawnBalls();
         SetPlayerName();
+        settings.GameStart = true;
     }
   
     private void ShowCreditPanel()

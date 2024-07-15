@@ -19,6 +19,8 @@ public class SettingSO : ScriptableObject
     public int TotalShots = 0;
     public int CurrentRound = 0;
     public float TimeBtwScoreUpdate = 2.0f;
+    public float TimeBtwGameChecks = 5.0f;
+    public bool GameStart = false;
 
     [Space(5)]
     public List<int> ScoreBoardList = new List<int>(10);
@@ -45,6 +47,11 @@ public class SettingSO : ScriptableObject
     {
         // add all default setup here 
         loadedDuckPins.Clear();
+        ScoreBoardList.Clear();
+        loadedBowlingBalls.Clear();
+        currentShots = 0;
+        CurrentRound = 0;
+        GameStart = false;
     }
 
 }

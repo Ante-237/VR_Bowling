@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BallOutZone : MonoBehaviour
@@ -11,11 +12,22 @@ public class BallOutZone : MonoBehaviour
     {
         if (other.transform.CompareTag("ball"))
         {
-            Destroy(other.gameObject, 8f);
-            OutRangeEvent.RaiseEvent();
-            // update score
-            // 
+            if(other.transform.TryGetComponent(out BallControl control))
+            {
+                if (!control.hasTriggered)
+                {
+                    Invoke(nameof(CallEvent), settings.TimeBtwGameChecks);
+                    Destroy(other.gameObject, settings.TimeBtwGameChecks  + 1);
+                    control.hasTriggered = true;
+                }
+            }
+            
         }
+    }
+
+    private void CallEvent()
+    {
+        OutRangeEvent.RaiseEvent();
     }
 
 }

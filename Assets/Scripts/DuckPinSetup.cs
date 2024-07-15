@@ -22,15 +22,27 @@ public class DuckPinSetup : MonoBehaviour
     private bool secondLaneStart = false;
     private bool thirdLaneStart = false;
     private bool fourthLaneStart = false;
+    private float localDistance = 0;
 
     public void Start()
     {
-        RunArrangements();
+        localDistance = distanceBtwDuckPin;
+        StartCoroutine(RunArrangements(3));
+        
     }
 
-    public void RunArrangements()
+    public IEnumerator RunArrangements(float waitTime)
     {
+
+       
+        foreach(GameObject obj in settings.loadedDuckPins)
+        {
+            Destroy(obj);
+        }
         settings.loadedDuckPins.Clear();
+        yield return new WaitForSeconds(waitTime);
+        distanceBtwDuckPin = localDistance;
+
         currentUsePosition = duckPinSpawnStartPoint.position;
         for (int i = 0; i < numberOfDuckPin; i++)
         {
