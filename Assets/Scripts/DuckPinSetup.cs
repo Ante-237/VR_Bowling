@@ -6,10 +6,13 @@ using UnityEngine;
 
 public class DuckPinSetup : MonoBehaviour
 {
-    [SerializeField] private GameObject duckPinPrefab;
+    [Header("SO")]
+    public SettingSO settings;
+
     [SerializeField] private Transform duckPinSpawnStartPoint;
     [SerializeField] private Transform duckPinSpawnParent;
     [SerializeField][Range(0, 1f)] private float distanceBtwDuckPin = 0.305f;
+    
 
 
     private const int numberOfDuckPin = 10;
@@ -22,52 +25,62 @@ public class DuckPinSetup : MonoBehaviour
 
     public void Start()
     {
+        RunArrangements();
+    }
+
+    public void RunArrangements()
+    {
+        settings.loadedDuckPins.Clear();
         currentUsePosition = duckPinSpawnStartPoint.position;
-        for(int i = 0; i < numberOfDuckPin; i++)
+        for (int i = 0; i < numberOfDuckPin; i++)
         {
             // first actual position
-            if(i == 0)
+            if (i == 0)
             {
-                duckPinInstance = Instantiate(duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                duckPinInstance = Instantiate(settings.duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                settings.loadedDuckPins.Add(duckPinInstance);
                 continue;
             }
 
             // first lane
-            if( i > 0 && i < 4)
+            if (i > 0 && i < 4)
             {
                 currentUsePosition = new Vector3(currentUsePosition.x + distanceBtwDuckPin, currentUsePosition.y, currentUsePosition.z);
-                duckPinInstance = Instantiate(duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                duckPinInstance = Instantiate(settings.duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                settings.loadedDuckPins.Add(duckPinInstance);
                 continue;
             }
 
-            if( i > 3 && i < 7)
+            if (i > 3 && i < 7)
             {
 
-                if(secondLaneStart == false)
+                if (secondLaneStart == false)
                 {
                     currentUsePosition = new Vector3(currentUsePosition.x - ((distanceBtwDuckPin * 4) - (distanceBtwDuckPin * 0.5f)), currentUsePosition.y, currentUsePosition.z - distanceBtwDuckPin);
                     secondLaneStart = true;
                 }
 
                 currentUsePosition = new Vector3(currentUsePosition.x + distanceBtwDuckPin, currentUsePosition.y, currentUsePosition.z);
-                duckPinInstance = Instantiate(duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                duckPinInstance = Instantiate(settings.duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                settings.loadedDuckPins.Add(duckPinInstance);
                 continue;
             }
 
-            if( i > 6 && i < 9)
+            if (i > 6 && i < 9)
             {
-                if(thirdLaneStart == false)
+                if (thirdLaneStart == false)
                 {
                     currentUsePosition = new Vector3(currentUsePosition.x - ((distanceBtwDuckPin * 3)) + (distanceBtwDuckPin * 0.5f), currentUsePosition.y, currentUsePosition.z - (distanceBtwDuckPin));
-                    thirdLaneStart = true;                
+                    thirdLaneStart = true;
                 }
 
                 currentUsePosition = new Vector3(currentUsePosition.x + distanceBtwDuckPin, currentUsePosition.y, currentUsePosition.z);
-                duckPinInstance = Instantiate(duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                duckPinInstance = Instantiate(settings.duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                settings.loadedDuckPins.Add(duckPinInstance);
                 continue;
             }
 
-            if(i > 8)
+            if (i > 8)
             {
                 if (fourthLaneStart == false)
                 {
@@ -76,14 +89,11 @@ public class DuckPinSetup : MonoBehaviour
                 }
 
                 currentUsePosition = new Vector3(currentUsePosition.x + distanceBtwDuckPin, currentUsePosition.y, currentUsePosition.z);
-                duckPinInstance = Instantiate(duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                duckPinInstance = Instantiate(settings.duckPinPrefab, currentUsePosition, Quaternion.identity, duckPinSpawnParent);
+                settings.loadedDuckPins.Add(duckPinInstance);
                 continue;
             }
 
         }
-
-
     }
-
-
 }

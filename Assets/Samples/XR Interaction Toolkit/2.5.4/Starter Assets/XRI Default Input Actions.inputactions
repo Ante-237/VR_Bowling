@@ -443,6 +443,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RayActivate",
+                    "type": "Button",
+                    "id": "7a01bec6-6a40-4fe6-ae94-c5f3474f9763",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -674,6 +683,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grip Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6752ba4a-06ce-405f-b5b5-c5b521b727af",
+                    "path": "<XRController>{LeftHand}/thumbstickTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RayActivate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1239,6 +1259,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RayActivate",
+                    "type": "Button",
+                    "id": "c18b2b37-e19c-4d57-9077-590798481edb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1470,6 +1499,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grip Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b3a415f-1d96-4699-b878-d58f64068cef",
+                    "path": "<XRController>{RightHand}/thumbstickTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RayActivate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

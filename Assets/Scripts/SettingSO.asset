@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84dad2060929a94a9806b7d3caeb5c3, type: 3}
+  m_Name: SettingSO
+  m_EditorClassIdentifier: 
+  loadedDuckPins: []
+  loadedBowlingBalls: []
+  HighScore: 0
+  balls: 0
+  CurrentScore: 0
+  currentShots: 0
+  TotalShots: 0
+  CurrentRound: 0
+  ScoreBoardList: 
+  playerName: Player 1
+  bowlingBalls:
+  - {fileID: 2480737715437220724, guid: fc26faa9e41ec74469ffb98be1c20db8, type: 3}
+  - {fileID: 2173708097188628101, guid: 7f00d251dd1de204e8d2cb4d9bd4042a, type: 3}
+  - {fileID: 1163754863426695342, guid: 6a86d39bd5dba9f41a51b0d3a1b75776, type: 3}
+  duckPinPrefab: {fileID: 969994120525500961, guid: 33e44e733e515b5418e2228e0f299e04,
+    type: 3}

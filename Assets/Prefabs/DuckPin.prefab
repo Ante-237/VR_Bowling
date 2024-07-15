@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1618728451887100916}
   - component: {fileID: 7949103395485280782}
   - component: {fileID: 4806505698065494207}
+  - component: {fileID: 619318376871237006}
   m_Layer: 0
   m_Name: DuckPin
-  m_TagString: Untagged
+  m_TagString: duckpin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969994120525500961}
   serializedVersion: 2
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 6.3656416, y: 0.26629162, z: 5.262}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &3571943545052628798
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -135,3 +136,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &619318376871237006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969994120525500961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75434565f2c140d4386247a793963a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WorldUp: {x: 0, y: 1, z: 0}
+  standstate: 0
