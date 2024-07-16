@@ -54,6 +54,14 @@ public class BallControl : MonoBehaviour
 
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("floor"))
+        {
+            audioSource.Stop();
+        }
+    }
+
     IEnumerator UpdateCurrentStatus(float waitTime)
     {
 

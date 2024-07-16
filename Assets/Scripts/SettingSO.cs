@@ -38,10 +38,6 @@ public class SettingSO : ScriptableObject
     public void OnValidate()
     {
 
-        //if(loadedDuckPins.Count > 9)
-        //{
-        //    loadedDuckPins.Clear();
-        //}
     }
 
     public void OnEnable()

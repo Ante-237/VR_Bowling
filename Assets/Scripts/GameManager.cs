@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 
         // set the first score to 0 to avoid null reference error when adding other score.
         fillUpList();
+        ReadScore();
 
     }
 
@@ -177,6 +178,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ScoreSave()
+    {
+        PlayerPrefs.SetInt("Highest", settings.HighScore);
+        PlayerPrefs.Save();
+    }
+
+    public void ReadScore()
+    {
+        settings.HighScore = PlayerPrefs.GetInt("Highest");
+    }
+
     // update score board
     IEnumerator UpdateScoreBoard(int index, int Score)
     {
@@ -269,6 +281,7 @@ public class GameManager : MonoBehaviour
 
     private void ExitGame()
     {
+        ScoreSave();
         Application.Quit();
     }
 }
