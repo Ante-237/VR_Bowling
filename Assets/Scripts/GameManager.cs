@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public VoidEventChannel SpawnBallsEvent;
     public VoidEventChannel OutOfRangeEvent;
 
+    [Header("Audio")]
+    public SoundClipSO strikeSound;
+
     [Header("UI")]
     [SerializeField] private GameObject StarterPanel;
     [SerializeField] private GameObject CreditPanel;
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
     private bool roundUp = false;
     private int ballsFallen = 0;
     private int callingAmount = 0;
+    private AudioSource audioSource;
 
     private void OnEnable()
     {
@@ -55,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // game start launch test
-
+        audioSource = GetComponent<AudioSource>();
 
         // set the first score to 0 to avoid null reference error when adding other score.
         fillUpList();
@@ -115,7 +119,7 @@ public class GameManager : MonoBehaviour
                         if (ballsFallen < 10)
                         {
                          
-                            settings.CurrentScore += ballsFallen;
+                            settings.CurrentScore = ballsFallen;
                             Debug.Log("Balls Standing Round 0 : Shot 0 => : " + ballsFallen);
                         }
                         else
@@ -123,10 +127,10 @@ public class GameManager : MonoBehaviour
                             // a strike complete // call the other stuff and update the UI
                             StartCoroutine(ShowScoreStrick());
                             Debug.Log("Balls Standing Round 0 : Shot 0 => :" + ballsFallen);
-                            settings.CurrentScore += 20;
+                            settings.CurrentScore = 20;
                             settings.currentShots = 2;
                             roundUp = true;
-                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwScoreUpdate));
+                            duckPinSetup.runSetup(settings.TimeBtwGameChecks);
                         }
                     }
                     
@@ -134,21 +138,21 @@ public class GameManager : MonoBehaviour
                     {
                         if (ballsFallen < 10)
                         {
-                            settings.CurrentScore += ballsFallen;
+                            settings.CurrentScore = ballsFallen;
                             Debug.Log("Balls Standing Round 0 : Shot 0 => :" + ballsFallen);
                             roundUp = true;
-                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwGameChecks));
+                            duckPinSetup.runSetup(settings.TimeBtwGameChecks);
                             settings.currentShots = 0;
                         }
                         else
                         {
                             settings.currentShots = 0;
                             roundUp = true;
-                            StartCoroutine(duckPinSetup.RunArrangements(settings.TimeBtwGameChecks));
+                            duckPinSetup.runSetup(settings.TimeBtwGameChecks);
                         }
                     }
                     // add the final score to the current score
-                    settings.ScoreBoardList[settings.CurrentRound] += settings.CurrentScore;
+                    settings.ScoreBoardList[settings.CurrentRound] = settings.CurrentScore;
                     StartCoroutine(UpdateScoreBoard(settings.CurrentRound, settings.ScoreBoardList[settings.CurrentRound]));
                     settings.CurrentScore = 0;
                     ballsFallen = 0;
@@ -184,6 +188,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ShowScoreStrick()
     {
         StrikeState(true);
+        strikeSound.PlaySound(audioSource);
         yield return new WaitForSeconds(settings.TimeBtwScoreUpdate);
         StrikeState(false);
     }
@@ -222,6 +227,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < BallRollingPositions.Count; i++) {
             settings.loadedBowlingBalls.Add(Instantiate(settings.bowlingBalls[Random.Range(0, settings.bowlingBalls.Count)], BallRollingPositions[i].position, Quaternion.identity, AnchorParentBalls));
         }
+
+        settings.balls = settings.loadedBowlingBalls.Count;
     }
 
     private void StrikeState(bool state)

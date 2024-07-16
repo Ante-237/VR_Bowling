@@ -9,20 +9,19 @@ public class BallRest : MonoBehaviour
 
     private void Start()
     {
-        settings.balls = 6;
+       // settings.balls = 6;
     }
 
     //  check the number of balls everytime a hand gets through
 
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("ball"))
         {
             if(settings.balls < 1)
             {
                 BallCountCaller.RaiseEvent();
-                
             }
         }
     }

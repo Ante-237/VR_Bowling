@@ -12,8 +12,7 @@ public class DuckPinSetup : MonoBehaviour
     [SerializeField] private Transform duckPinSpawnStartPoint;
     [SerializeField] private Transform duckPinSpawnParent;
     [SerializeField][Range(0, 1f)] private float distanceBtwDuckPin = 0.305f;
-    
-
+   
 
     private const int numberOfDuckPin = 10;
     private GameObject duckPinInstance;
@@ -22,29 +21,40 @@ public class DuckPinSetup : MonoBehaviour
     private bool secondLaneStart = false;
     private bool thirdLaneStart = false;
     private bool fourthLaneStart = false;
-    private float localDistance = 0;
+    private int i = 0;
+    
+
 
     public void Start()
     {
-        localDistance = distanceBtwDuckPin;
-        StartCoroutine(RunArrangements(3));
-        
+        StartCoroutine(RunArrangements(2));
+    }
+
+    public void runSetup(float timeStuff)
+    {
+        StartCoroutine(RunArrangements(timeStuff));
     }
 
     public IEnumerator RunArrangements(float waitTime)
     {
 
-       
-        foreach(GameObject obj in settings.loadedDuckPins)
+        if (settings.loadedDuckPins.Count > 0)
         {
-            Destroy(obj);
+            foreach (GameObject obj in settings.loadedDuckPins)
+            {
+                Destroy(obj);
+            }
+            settings.loadedDuckPins.Clear();
+            secondLaneStart = false;
+            thirdLaneStart = false;
+            fourthLaneStart = false;
         }
-        settings.loadedDuckPins.Clear();
         yield return new WaitForSeconds(waitTime);
-        distanceBtwDuckPin = localDistance;
+   
 
         currentUsePosition = duckPinSpawnStartPoint.position;
-        for (int i = 0; i < numberOfDuckPin; i++)
+
+        for (i = 0; i < numberOfDuckPin; i++)
         {
             // first actual position
             if (i == 0)

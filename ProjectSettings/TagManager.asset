@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ball
   - duckpin
+  - floor
   layers:
   - Default
   - TransparentFX

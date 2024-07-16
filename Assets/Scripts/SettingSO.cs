@@ -20,6 +20,7 @@ public class SettingSO : ScriptableObject
     public int CurrentRound = 0;
     public float TimeBtwScoreUpdate = 2.0f;
     public float TimeBtwGameChecks = 5.0f;
+    public float TimeUpdateGreenZone = 5.0f;
     public bool GameStart = false;
 
     [Space(5)]
@@ -51,6 +52,7 @@ public class SettingSO : ScriptableObject
         loadedBowlingBalls.Clear();
         currentShots = 0;
         CurrentRound = 0;
+        balls = 0;
         GameStart = false;
     }
 

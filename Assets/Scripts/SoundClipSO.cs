@@ -9,6 +9,15 @@ public class SoundClipSO : ScriptableObject
 
     public void PlaySound(AudioSource audioSource)
     {
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
         audioSource.PlayOneShot(clip[Random.Range(0, clip.Count)]);
+    }
+
+    public void PlayContinous(AudioSource audioSource)
+    {
+        audioSource.loop = true;
+        audioSource.clip = clip[Random.Range(0, clip.Count)];
+        audioSource.Play();
     }
 }

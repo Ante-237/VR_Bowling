@@ -7,6 +7,7 @@ public class BallOutZone : MonoBehaviour
 {
     public SettingSO settings;
     public VoidEventChannel OutRangeEvent;
+    public VoidEventChannel BallCounterEvent;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -19,6 +20,7 @@ public class BallOutZone : MonoBehaviour
                     Invoke(nameof(CallEvent), settings.TimeBtwGameChecks);
                     Destroy(other.gameObject, settings.TimeBtwGameChecks  + 1);
                     control.hasTriggered = true;
+                    settings.balls -= 1;
                 }
             }
             
@@ -28,6 +30,11 @@ public class BallOutZone : MonoBehaviour
     private void CallEvent()
     {
         OutRangeEvent.RaiseEvent();
+
+        if (settings.balls < 1)
+        {
+            BallCounterEvent.RaiseEvent(); 
+        }
     }
 
 }
